@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.practice.mymarvel.R
+import com.practice.mymarvel.data.network.CharacterRetrofitFactory
 import com.practice.mymarvel.data.repository.CharacterRepositoryImpl
 import com.practice.mymarvel.databinding.FragmentCharacterListBinding
 import com.practice.mymarvel.ui.adpater.CharacterListAdapter
@@ -33,7 +34,7 @@ class CharacterListFragment : Fragment() {
         val viewModel = ViewModelProvider(
             this,
             CharacterListViewModelFactory(
-                CharacterRepositoryImpl()
+                CharacterRepositoryImpl(CharacterRetrofitFactory.createBasicService())
             )
         ).get(CharacterListViewModelImpl::class.java)
 

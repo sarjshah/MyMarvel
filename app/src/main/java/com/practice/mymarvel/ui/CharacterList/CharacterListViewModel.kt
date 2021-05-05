@@ -23,10 +23,14 @@ class CharacterListViewModelImpl(private val characterRepository: CharacterRepos
 
     init {
         viewModelScope.launch {
-            characterRepository.fetchMarvelCharacters().collect {
+            characterRepository.fetchMarvelCharacters(DEFAULT_FETCH_LIMIT).collect {
                 _characterList.value = it.data.orEmpty()
             }
         }
+    }
+
+    companion object {
+        val DEFAULT_FETCH_LIMIT = 99
     }
 }
 

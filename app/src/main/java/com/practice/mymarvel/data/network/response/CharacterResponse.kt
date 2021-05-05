@@ -19,7 +19,7 @@ class CharacterResponseMapper() : NetworkMapper<CharacterResponse, MarvelCharact
             networkResponse.name,
             imageUrl =
             "${networkResponse.thumbnail.path}/portrait_small" +
-                    ".${networkResponse.thumbnail.extension}"
+                ".${networkResponse.thumbnail.extension}"
         )
     }
 
