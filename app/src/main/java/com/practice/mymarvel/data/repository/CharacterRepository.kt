@@ -1,30 +1,34 @@
 package com.practice.mymarvel.data.repository
 
-import com.practice.bbapplication.model.CharacterResponse
-import com.practice.bbapplication.model.Thumbnail
+import com.practice.mymarvel.internal.Resource
+import com.practice.mymarvel.model.MarvelCharacter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
 interface CharacterRepository {
-    suspend fun fetchCharacters(): Flow<List<CharacterResponse>>
+    suspend fun fetchMarvelCharacters(): Flow<Resource<List<MarvelCharacter>>>
 }
 
 class CharacterRepositoryImpl : CharacterRepository {
-    override suspend fun fetchCharacters(): Flow<List<CharacterResponse>> {
+    override suspend fun fetchMarvelCharacters(): Flow<Resource<List<MarvelCharacter>>> {
         return flowOf(
-            listOf(
-                CharacterResponse("test desc", 1, "test1", Thumbnail("testext", "testpath"), ""),
-                CharacterResponse("test desc", 1, "test2", Thumbnail("testext", "testpath"), ""),
-                CharacterResponse("test desc", 1, "test3", Thumbnail("testext", "testpath"), ""),
-                CharacterResponse("test desc", 1, "test4", Thumbnail("testext", "testpath"), ""),
-                CharacterResponse("test desc", 1, "test5", Thumbnail("testext", "testpath"), ""),
-                CharacterResponse("test desc", 1, "test6", Thumbnail("testext", "testpath"), ""),
-                CharacterResponse("test desc", 1, "test7", Thumbnail("testext", "testpath"), ""),
-                CharacterResponse("test desc", 1, "test8", Thumbnail("testext", "testpath"), ""),
-                CharacterResponse("test desc", 1, "test9", Thumbnail("testext", "testpath"), ""),
-                CharacterResponse("test desc", 1, "test10", Thumbnail("testext", "testpath"), ""),
-                CharacterResponse("test desc", 1, "test11", Thumbnail("testext", "testpath"), "")
-            )
+            Resource.success(getList())
+        )
+    }
+
+    fun getList(): List<MarvelCharacter> {
+        return listOf(
+            MarvelCharacter("test desc", 1, "test21", ""),
+            MarvelCharacter("test desc", 1, "test22", ""),
+            MarvelCharacter("test desc", 1, "test23", ""),
+            MarvelCharacter("test desc", 1, "test24", ""),
+            MarvelCharacter("test desc", 1, "test25", ""),
+            MarvelCharacter("test desc", 1, "test26", ""),
+            MarvelCharacter("test desc", 1, "test27", ""),
+            MarvelCharacter("test desc", 1, "test28", ""),
+            MarvelCharacter("test desc", 1, "test29", ""),
+            MarvelCharacter("test desc", 1, "test30", ""),
+            MarvelCharacter("test desc", 1, "test31", "")
         )
     }
 }

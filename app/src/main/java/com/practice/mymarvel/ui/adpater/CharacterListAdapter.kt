@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.practice.bbapplication.model.CharacterResponse
 import com.practice.mymarvel.R
 import com.practice.mymarvel.databinding.ItemCharacterBinding
+import com.practice.mymarvel.model.MarvelCharacter
 
 class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.CharacterListViewHolder>() {
 
-    var characterList: List<CharacterResponse> = emptyList()
+    var characterList: List<MarvelCharacter> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -32,7 +32,7 @@ class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.Character
 
     class CharacterListViewHolder(val itemViewBinding: ItemCharacterBinding) :
         RecyclerView.ViewHolder(itemViewBinding.root) {
-        fun bind(character: CharacterResponse) {
+        fun bind(character: MarvelCharacter) {
             itemViewBinding.character = character
         }
     }

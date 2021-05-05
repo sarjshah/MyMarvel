@@ -4,7 +4,7 @@
     <data>
         <variable
             name="character"
-            type="com.practice.bbapplication.model.CharacterResponse" />
+            type="com.practice.mymarvel.model.MarvelCharacter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

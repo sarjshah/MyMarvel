@@ -1,4 +1,4 @@
-package com.practice.bbapplication.model
+package com.practice.mymarvel.data.network.response
 
 import java.io.Serializable
 

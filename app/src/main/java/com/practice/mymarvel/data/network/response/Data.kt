@@ -1,4 +1,4 @@
-package com.practice.bbapplication.model
+package com.practice.mymarvel.data.network.response
 
 data class Data(
     val count: Int,

@@ -1,30 +1,30 @@
-package com.practice.mymarvel.ui.CharacterList
+package com.practice.mymarvel.ui.characterlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.practice.bbapplication.model.CharacterResponse
 import com.practice.mymarvel.data.repository.CharacterRepositoryImpl
+import com.practice.mymarvel.model.MarvelCharacter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-interface CharacterListViewModel {
-    val characterList: LiveData<List<CharacterResponse>>
+interface MarvelCharacterListViewModel {
+    val characterList: LiveData<List<MarvelCharacter>>
 }
 
 class CharacterListViewModelImpl(private val characterRepository: CharacterRepositoryImpl) :
-    ViewModel(), CharacterListViewModel {
+    ViewModel(), MarvelCharacterListViewModel {
 
-    private val _characterList = MutableStateFlow<List<CharacterResponse>>(emptyList())
-    override val characterList: LiveData<List<CharacterResponse>> = _characterList.asLiveData()
+    private val _characterList = MutableStateFlow<List<MarvelCharacter>>(emptyList())
+    override val characterList: LiveData<List<MarvelCharacter>> = _characterList.asLiveData()
 
     init {
         viewModelScope.launch {
-            characterRepository.fetchCharacters().collect {
-                _characterList.value = it
+            characterRepository.fetchMarvelCharacters().collect {
+                _characterList.value = it.data.orEmpty()
             }
         }
     }
