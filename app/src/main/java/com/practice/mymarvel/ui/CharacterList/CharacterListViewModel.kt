@@ -2,33 +2,40 @@ package com.practice.mymarvel.ui.CharacterList
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.practice.bbapplication.model.CharacterResponse
-import com.practice.bbapplication.model.Thumbnail
+import com.practice.mymarvel.data.repository.CharacterRepositoryImpl
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 interface CharacterListViewModel {
     val characterList: LiveData<List<CharacterResponse>>
 }
 
-class CharacterListViewModelImpl : ViewModel(), CharacterListViewModel {
+class CharacterListViewModelImpl(private val characterRepository: CharacterRepositoryImpl) :
+    ViewModel(), CharacterListViewModel {
 
     private val _characterList = MutableStateFlow<List<CharacterResponse>>(emptyList())
     override val characterList: LiveData<List<CharacterResponse>> = _characterList.asLiveData()
 
     init {
-        _characterList.value = listOf(
-            CharacterResponse("test desc", 1, "test1", Thumbnail("testext", "testpath"), ""),
-            CharacterResponse("test desc", 1, "test2", Thumbnail("testext", "testpath"), ""),
-            CharacterResponse("test desc", 1, "test3", Thumbnail("testext", "testpath"), ""),
-            CharacterResponse("test desc", 1, "test4", Thumbnail("testext", "testpath"), ""),
-            CharacterResponse("test desc", 1, "test5", Thumbnail("testext", "testpath"), ""),
-            CharacterResponse("test desc", 1, "test6", Thumbnail("testext", "testpath"), ""),
-            CharacterResponse("test desc", 1, "test7", Thumbnail("testext", "testpath"), ""),
-            CharacterResponse("test desc", 1, "test8", Thumbnail("testext", "testpath"), ""),
-            CharacterResponse("test desc", 1, "test9", Thumbnail("testext", "testpath"), ""),
-            CharacterResponse("test desc", 1, "test10", Thumbnail("testext", "testpath"), ""),
-            CharacterResponse("test desc", 1, "test11", Thumbnail("testext", "testpath"), "")
-        )
+        viewModelScope.launch {
+            characterRepository.fetchCharacters().collect {
+                _characterList.value = it
+            }
+        }
+    }
+}
+
+class CharacterListViewModelFactory(private val repository: CharacterRepositoryImpl) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(CharacterListViewModelImpl::class.java)) {
+            return CharacterListViewModelImpl(repository) as T
+        }
+        throw IllegalArgumentException("Unknown Viewmodel class")
     }
 }

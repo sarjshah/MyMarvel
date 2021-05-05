@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.practice.mymarvel.R
+import com.practice.mymarvel.data.repository.CharacterRepositoryImpl
 import com.practice.mymarvel.databinding.FragmentCharacterListBinding
+import com.practice.mymarvel.ui.CharacterList.CharacterListViewModelFactory
 import com.practice.mymarvel.ui.CharacterList.CharacterListViewModelImpl
 import com.practice.mymarvel.ui.adpater.CharacterListAdapter
 
@@ -30,7 +32,12 @@ class CharacterListFragment : Fragment() {
             false
         )
 
-        val viewModel by viewModels<CharacterListViewModelImpl>()
+        val viewModel = ViewModelProvider(
+            this,
+            CharacterListViewModelFactory(
+                CharacterRepositoryImpl()
+            )
+        ).get(CharacterListViewModelImpl::class.java)
 
         with(binding) {
             with(recyclerView) {
@@ -39,9 +46,12 @@ class CharacterListFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context)
             }
 
-            viewModel.characterList.observe(viewLifecycleOwner, Observer {
-                characterListAdapter.characterList = it
-            })
+            viewModel.characterList.observe(
+                viewLifecycleOwner,
+                Observer {
+                    characterListAdapter.characterList = it
+                }
+            )
         }
 
         return binding.root
