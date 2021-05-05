@@ -1,4 +1,4 @@
-package com.practice.mymarvel.ui.CharacterDetails
+package com.practice.mymarvel.ui.characterdetails
 
 import androidx.fragment.app.Fragment
 import com.practice.mymarvel.R
