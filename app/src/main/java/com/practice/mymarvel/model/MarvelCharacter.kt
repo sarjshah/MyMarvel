@@ -9,4 +9,9 @@ data class MarvelCharacter(
     val id: Int,
     val name: String,
     val imageUrl: String
-) : Parcelable
+) : Parcelable {
+    companion object {
+        fun empty() =
+            MarvelCharacter("", 0, "", "")
+    }
+}

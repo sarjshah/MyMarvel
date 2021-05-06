@@ -13,6 +13,8 @@ import com.practice.mymarvel.R
 import com.practice.mymarvel.data.network.CharacterRetrofitFactory
 import com.practice.mymarvel.data.repository.CharacterRepositoryImpl
 import com.practice.mymarvel.databinding.FragmentCharacterListBinding
+import com.practice.mymarvel.internal.CharacterUIState
+import com.practice.mymarvel.model.MarvelCharacter
 import com.practice.mymarvel.ui.adpater.CharacterListAdapter
 
 class CharacterListFragment : Fragment() {
@@ -47,8 +49,13 @@ class CharacterListFragment : Fragment() {
 
             viewModel.characterList.observe(
                 viewLifecycleOwner,
-                Observer {
-                    characterListAdapter.characterList = it
+                Observer { uiState ->
+                    when (uiState) {
+                        is CharacterUIState.Success<*> ->
+                            characterListAdapter.characterList =
+                                uiState.result as List<MarvelCharacter>
+                        // Show Error
+                    }
                 }
             )
         }
