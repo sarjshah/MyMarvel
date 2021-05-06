@@ -45,6 +45,8 @@ class CharacterListFragment : Fragment() {
                 characterListAdapter = CharacterListAdapter()
                 adapter = characterListAdapter
                 layoutManager = LinearLayoutManager(context)
+                characterListAdapter.characterOnclickListener = { marvelCharacter ->
+                }
             }
 
             viewModel.characterList.observe(
@@ -54,7 +56,7 @@ class CharacterListFragment : Fragment() {
                         is CharacterUIState.Success<*> ->
                             characterListAdapter.characterList =
                                 uiState.result as List<MarvelCharacter>
-                        // Show Error
+                        // TODO Show Error
                     }
                 }
             )

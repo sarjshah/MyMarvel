@@ -8,7 +8,12 @@ import com.practice.mymarvel.R
 import com.practice.mymarvel.databinding.ItemCharacterBinding
 import com.practice.mymarvel.model.MarvelCharacter
 
-class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.CharacterListViewHolder>() {
+typealias CharacterOnclickListener = (MarvelCharacter) -> Unit
+class CharacterListAdapter :
+    RecyclerView.Adapter<CharacterListAdapter.CharacterListViewHolder>(),
+    CharacterOnclickListener {
+
+    lateinit var characterOnclickListener: CharacterOnclickListener
 
     var characterList: List<MarvelCharacter> = emptyList()
         set(value) {
@@ -20,7 +25,8 @@ class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.Character
         return CharacterListViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context), R.layout.item_character, parent, false
-            )
+            ),
+            this
         )
     }
 
@@ -30,10 +36,20 @@ class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.Character
 
     override fun getItemCount() = characterList.size
 
-    class CharacterListViewHolder(val itemViewBinding: ItemCharacterBinding) :
+    override fun invoke(p1: MarvelCharacter) = characterOnclickListener(p1)
+
+    class CharacterListViewHolder(
+        val itemViewBinding: ItemCharacterBinding,
+        val onClickListener: CharacterOnclickListener
+    ) :
         RecyclerView.ViewHolder(itemViewBinding.root) {
-        fun bind(character: MarvelCharacter) {
-            itemViewBinding.character = character
+        fun bind(characterItem: MarvelCharacter) {
+            with(itemViewBinding) {
+                character = characterItem
+                ivCardView.setOnClickListener {
+                    onClickListener(characterItem)
+                }
+            }
         }
     }
 }

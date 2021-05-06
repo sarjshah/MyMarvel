@@ -8,10 +8,18 @@
         android:id="@+id/characterListFragment"
         android:name="com.practice.mymarvel.ui.characterlist.CharacterListFragment"
         android:label="fragment_character_list"
-        tools:layout="@layout/fragment_character_list" />
+        tools:layout="@layout/fragment_character_list" >
+        <action
+            android:id="@+id/characterList_to_characterDetails"
+            app:destination="@id/characterDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/characterDetailsFragment"
         android:name="com.practice.mymarvel.ui.characterdetails.CharacterDetailsFragment"
         android:label="fragment_character_details"
-        tools:layout="@layout/fragment_character_details" />
+        tools:layout="@layout/fragment_character_details" >
+        <argument
+            android:name="marvelCharacter"
+            app:argType="com.practice.mymarvel.model.MarvelCharacter" />
+    </fragment>
 </navigation>

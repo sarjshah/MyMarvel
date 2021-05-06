@@ -5,6 +5,7 @@ import com.practice.mymarvel.data.network.response.CharacterResponseMapper
 import com.practice.mymarvel.model.MarvelCharacter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 
@@ -15,14 +16,11 @@ interface CharacterRepository {
 
 class CharacterRepositoryImpl(private val service: CharacterServiceAPI) : CharacterRepository {
     override suspend fun fetchMarvelCharacters(limit: Int): Flow<List<MarvelCharacter>> =
-        withContext(Dispatchers.IO) {
-            flowOf(
-                CharacterResponseMapper()
-                    .toDomainList(
-                        service.getMarvelCharacters(limit)
-                            .data.results
-                    )
-            )
+        flow {
+            val marvelCharacters = service.getMarvelCharacters(limit)
+            val domainMarvelCharacters = CharacterResponseMapper()
+                .toDomainList(marvelCharacters.data.results)
+            emit(domainMarvelCharacters)
         }
 
     override suspend fun fetchMarvelCharacter(id: Int): Flow<MarvelCharacter> =

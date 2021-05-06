@@ -8,12 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.practice.mymarvel.data.repository.CharacterRepositoryImpl
 import com.practice.mymarvel.internal.CharacterUIState
 import com.practice.mymarvel.model.MarvelCharacter
+import java.lang.Exception
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 interface MarvelCharacterListViewModel {
-    val characterList: LiveData<CharacterUIState>
+    val characterList: LiveData<CharacterUIState<List<MarvelCharacter>>>
 }
 
 class CharacterListViewModelImpl(private val characterRepository: CharacterRepositoryImpl) :
@@ -21,12 +22,17 @@ class CharacterListViewModelImpl(private val characterRepository: CharacterRepos
 
     private val _characterList =
         MutableStateFlow(CharacterUIState.Success(emptyList<MarvelCharacter>()))
-    override val characterList: LiveData<CharacterUIState> = _characterList.asLiveData()
+    override val characterList:
+        LiveData<CharacterUIState<List<MarvelCharacter>>> =
+            _characterList.asLiveData()
 
     init {
         viewModelScope.launch {
-            characterRepository.fetchMarvelCharacters(DEFAULT_FETCH_LIMIT).collect {
-                _characterList.value = CharacterUIState.Success(it)
+            try {
+                characterRepository.fetchMarvelCharacters(DEFAULT_FETCH_LIMIT).collect {
+                    _characterList.value = CharacterUIState.Success(it)
+                }
+            } catch (e: Exception) {
             }
         }
     }
